@@ -1,0 +1,78 @@
+
+Contenu de l'archive:
+--------------------
+
+- répertoire 'compteur_entier':
+  contenant un module 'compteur', abstraction d'un tas où les éléments sont 
+  totalement abstraits, avec les opérations:
+  - Insert(d \in D)     pour incrémenter,
+  - Remove(): D         pour décrémenter,
+  - Cardinal(): Nat     pour déterminer la valeur
+
+- répertoire 'compteur_unaire':
+  contenant un module 'compteur_unaire', raffinement de 'compteur',
+  exprimé en base 1.
+
+- répertoire 'compteur_binaire':
+  contenant un module 'compteur_binaire', raffinement de 'compteur',
+  exprimé en base 2. Utilise un ensemble d'opérations externes 
+  définies dans le fichier 'ensemble/booleen.tla' destinées 
+  à manipuler le contenu des cases (ici des booléens).
+
+- répertoire 'tas':
+  contenant un module 'tas', réalisation d'un tas, raffinement de 'compteur'.
+  Les éléments de D sont pris en compte dans l'opération supplémentaire:
+  - Occurrence(d \in D): Nat pour calculer l'occurrence de d dans le tas
+
+- répertoire 'liste':
+  contenant un module 'liste', raffinement de 'tas' et de 'compteur_unaire'.
+  L'ordre des éléments est géré par les opérations supplémentaires:
+  - Put(i \in 1..Len(liste), d \in D) pour modifier la ième case de la liste
+  - Get(i \in 1..Len(liste)): D       pour accéder à la ième case
+
+- répertoire 'ralR1' (Random Access List, Raffinement 1): A COMPLETER
+  contenant un module 'ralR1', premier raffinement proposé de 'liste'
+  et de 'compteur_binaire'. Utilise un ensemble d'opérations externes 
+  définies dans le fichier 'ensemble/power2liste.tla' destinées 
+  à manipuler le contenu des cases (ici des listes d'éléments de D, 
+  de taille 2^i). La structure est très proche du compteur binaire.
+  Le module ELT représentant le contenu des cases est changé,
+  et les opérations supplémentaires Put et Get sont ajoutées.
+
+- répertoire 'element': A COMPLETER
+  contenant les fichiers permettant de manipuler le contenu des cases 
+  des structures de type compteur binaire. Les définitions sont:
+  - ETAT: le type des éléments
+  - Vide: ETAT pour                    pour la case vide
+  - Unit(d \in D): ETAT                pour créér un singleton
+  - Join(left, right \in ETAT): ETAT   pour réunir deux cases
+  - Split(join \in ETAT): ETAT \X ETAT pour couper une case exactement en deux
+  - Pick(case \in ETAT, d \in D)       pour affecter à d un des éléments de la case
+  - Occurrence(case \in ETAT, d \in D) pour calculer l'occurrence de d dans la case
+  Les fichiers sont:
+  - 'booleen.tla': contenant l'abstraction des cases par un booléen.
+    Une case vide correspond à FALSE
+  - 'power2liste.tla': A COMPLETER, contenant une réalisation des cases par des 
+    listes.
+
+- fichiers génériques:
+  - var_module.tla, run_module.tla: pour simuler toutes les exécutions 
+    possibles d'un module.
+  - var_raffinement, run_raffinement: pour vérifier les conditions
+    de raffinement entre deux modules.
+
+
+Objectif du projet:
+------------------
+
+- définir les raffinements en conservant la structure 
+  de répertoires et de fichiers fournie.
+- en particulier, ne pas copier les fichiers nécessaires d'un répertoire
+  à l'autre, mais utiliser des liens symboliques pour éviter les duplications.
+  En résumé : cd <dst>; ln -s <src/fichier>
+  plutôt que: cd <dst>; cp <src/fichier> .
+- compléter les définitions du fichier 'ensemble/power2liste.tla'.
+- compléter le module ralR1, prouver la correction du module, 
+  ainsi que les deux raffinements.
+- raffiner ralR1 en modifiant la structure de compteur binaire utilisée.
+- raffiner ralR1 en modifiant la structure des éléments des cases utilisée.
